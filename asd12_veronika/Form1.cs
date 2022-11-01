@@ -35,25 +35,27 @@ public partial class Form1 : Form
     private void OutputText(string textWhereFindString, string smallestWithVowels, int[] indexes)
     {
         richTextBox2.Clear();
-        for (int i = 0; i < textWhereFindString.Length; i++)
+
+
+        for (var i = 0; i < textWhereFindString.Length; i++)
         {
             if (indexes.Contains(i)) //індекс знаходить в масивів , значить потірбне нам слово починається з цього інекса
             {
-                for (int j = i; j < i + smallestWithVowels.Length; j++)// виводимо потрібне нам слово 
-                {
-                    SetColor(textWhereFindString[j]);
-                }
-                i += smallestWithVowels.Length - 1;
+                SetColor(
+                    textWhereFindString[i..(i + smallestWithVowels.Length)] // беремо підстрічку 
+                    //textWhereFindString.AsSpan(i, smallestWithVowels.Length).ToString() //альтернативний варіант
+                    );
+                i += smallestWithVowels.Length - 1; // віднімається 1 , бо потім цикл for автоматично додасть 1
                 continue;
             }
             richTextBox2.AppendText(textWhereFindString[i].ToString());
         }
     }
 
-    private void SetColor(char i)
+    private void SetColor(string i)
     {
         richTextBox2.SelectionColor = Color.Red;
-        richTextBox2.AppendText(i.ToString());
+        richTextBox2.AppendText(i);
         richTextBox2.SelectionColor = Color.Black;
     }
     private int CountOfVowel(string s) => s.Count(ch => ch.IsVowel());
